@@ -48,12 +48,44 @@ public class MaintenanceRequestServlet extends HttpServlet {
             if (ValidationUtil.isNotBlank(idParam)) {
                 int id = ValidationUtil.parseIntOrDefault(idParam, -1);
                 if (id < 1) { resp.sendError(HttpServletResponse.SC_BAD_REQUEST, "Invalid ID"); return; }
-                MaintenanceRequest mr = mrDAO.findById(id);
-                if (mr == null) { resp.sendError(HttpServletResponse.SC_NOT_FOUND); return; }
+
+                MaintenanceRequest mr = null;
+                switch (user.getRole()) {
+                    case admin:
+                    case supervisor:
+                        mr = mrDAO.findById(id);
+                        break;
+                    case lecturer:
+                        for (MaintenanceRequest r : mrDAO.findByReporter(user.getId())) {
+                            if (r.getId() == id) {
+                                mr = r;
+                                break;
+                            }
+                        }
+                        break;
+                    case janitor:
+                        for (MaintenanceRequest r : mrDAO.findByAssignee(user.getId())) {
+                            if (r.getId() == id) {
+                                mr = r;
+                                break;
+                            }
+                        }
+                        break;
+                    default:
+                        resp.sendError(HttpServletResponse.SC_FORBIDDEN);
+                        return;
+                }
+
+                if (mr == null) {
+                    // Either the request does not exist or the user is not authorised to view it
+                    resp.sendError(HttpServletResponse.SC_FORBIDDEN);
+                    return;
+                }
+
                 req.setAttribute("request", mr);
                 req.setAttribute("facilities", facDAO.findAll());
                 req.setAttribute("janitors",   userDAO.findByRole(User.Role.janitor));
-                req.getRequestDispatcher("/WEB-INF/views/shared/maintenance-request-detail.jsp").forward(req, resp);
+                req.getRequestDispatcher("/WEB-INF/views/shared/maintenance-requests.jsp").forward(req, resp);
             } else {
             // Filter by role
             switch (user.getRole()) {
