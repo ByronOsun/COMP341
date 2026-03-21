@@ -116,7 +116,7 @@ public class UserManagementServlet extends HttpServlet {
         String department = req.getParameter("department");
 
         if (!ValidationUtil.isValidName(name)) {
-            req.setAttribute("error", "Name is required (2–120 characters).");
+            req.setAttribute("error", "Name is required (2–150 characters).");
             doGet(req, resp); return;
         }
         if (!isValidEnum(User.Role.class, roleStr)) {
