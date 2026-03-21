@@ -55,12 +55,28 @@ public final class ValidationUtil {
 
     /**
      * Validates a person or facility name.
-     * Rules: 2–150 characters, not blank.
+     * Default rules: 2–150 characters, not blank.
+     *
+     * <p>This is a convenience overload that uses 150 as the maximum length.
+     * For fields with different database/UI limits, prefer
+     * {@link #isValidName(String, int)} with an explicit {@code maxLength}.
      */
     public static boolean isValidName(String name) {
+        return isValidName(name, 150);
+    }
+
+    /**
+     * Validates a person or facility name with a caller-specified maximum length.
+     * Rules: 2–{@code maxLength} characters, not blank.
+     *
+     * @param name the value to validate
+     * @param maxLength the maximum allowed length for {@code name}
+     * @return {@code true} if {@code name} is non-blank and its trimmed length is between 2 and {@code maxLength} (inclusive)
+     */
+    public static boolean isValidName(String name, int maxLength) {
         if (isBlank(name)) return false;
         int len = name.trim().length();
-        return len >= 2 && len <= 150;
+        return len >= 2 && len <= maxLength;
     }
 
     // ─── Phone ────────────────────────────────────────────────
