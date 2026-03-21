@@ -27,8 +27,8 @@ public class LogoutServlet extends HttpServlet {
     private void doLogout(HttpServletRequest req, HttpServletResponse resp) throws IOException {
         HttpSession session = req.getSession(false);
         if (session != null) {
-            String email = (String) session.getAttribute("userEmail");
-            LOGGER.log(Level.INFO, "User logged out: {0}", email);
+            String userName = (String) session.getAttribute("userName");
+            LOGGER.log(Level.INFO, "User logged out: {0}", userName);
             session.invalidate();
         }
 
