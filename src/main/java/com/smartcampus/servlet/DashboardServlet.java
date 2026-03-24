@@ -4,6 +4,7 @@ import com.smartcampus.dao.FacilityDAO;
 import com.smartcampus.dao.MaintenanceRequestDAO;
 import com.smartcampus.dao.UserDAO;
 import com.smartcampus.dao.CleaningTaskDAO;
+import com.smartcampus.model.CleaningTask;
 import com.smartcampus.model.Facility;
 import com.smartcampus.model.MaintenanceRequest;
 import com.smartcampus.model.User;
@@ -48,11 +49,11 @@ public class DashboardServlet extends HttpServlet {
                 case admin:
                     req.setAttribute("totalUsers",       userDAO.count());
                     req.setAttribute("totalFacilities",  facDAO.count());
-                    req.setAttribute("pendingRequests",  mrDAO.countByStatus(MaintenanceRequest.Status.pending));
+                    req.setAttribute("pendingRequests",  ctDAO.countByStatus(CleaningTask.Status.pending));
                     req.setAttribute("activeFacilities", facDAO.countByStatus(Facility.Status.available));
+                    req.setAttribute("completedToday",   ctDAO.countCompletedToday());
                     req.setAttribute("allUsers",         userDAO.findAll());
                     req.setAttribute("allFacilities",    facDAO.findAll());
-                    req.setAttribute("allRequests",      mrDAO.findAll());
                     jspPath = "/WEB-INF/views/admin/dashboard.jsp";
                     break;
                 case lecturer:

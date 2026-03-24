@@ -129,16 +129,16 @@ UPDATE users SET password = '$2a$12$YylEmtjkMbs1sVkRyCiRa.h4GWkd7t5RKaQU1ep8Nfwx
     WHERE id = 4 AND email = 'mchebet@egerton.ac.ke';
 
 INSERT IGNORE INTO facilities (id, name, location, facility_type, capacity, status, description) VALUES
-(1, 'SCI 101 – Lecture Hall A', 'Science Complex, Block A', 'classroom', 120, 'available', 'Large lecture hall with projector and AC'),
-(2, 'ICT Lab 2', 'Science Complex, Block B', 'lab', 40, 'available', 'Computer laboratory with 40 workstations'),
-(3, 'Staff Room – Ground Floor', 'Science Complex, Block A', 'office', 15, 'available', 'Staff common room'),
-(4, 'Main Hall', 'Administration Block', 'hall', 500, 'available', 'Main university hall for events'),
-(5, 'Restrooms – Block A', 'Science Complex, Block A', 'restroom', 0, 'available', 'Gender-separated restrooms');
+(1, 'A101', 'Wing A', 'office', 10, 'available', 'Wing A ground floor office'),
+(2, 'A201', 'Wing A', 'office', 10, 'available', 'Wing A second floor office'),
+(3, 'B101', 'Wing B', 'office', 10, 'available', 'Wing B ground floor office'),
+(4, 'B102', 'Wing B', 'office', 10, 'available', 'Wing B ground floor office'),
+(5, 'C101', 'Wing C', 'office', 10, 'available', 'Wing C ground floor office');
 
 INSERT IGNORE INTO maintenance_requests (id, facility_id, reported_by, assigned_to, title, description, priority, status) VALUES
-(1, 1, 2, 3, 'Broken projector', 'The projector in SCI 101 stopped working mid-lecture.', 'high', 'pending'),
-(2, 3, 2, 3, 'Leaking tap in staff room', 'The kitchen tap in the staff room is leaking.', 'medium', 'in_progress');
+(1, 1, 2, 3, 'Broken projector', 'The projector in office A101 stopped working.', 'high', 'pending'),
+(2, 3, 2, 3, 'Leaking tap', 'The tap in office B101 is leaking.', 'medium', 'in_progress');
 
 INSERT IGNORE INTO cleaning_tasks (id, facility_id, assigned_to, scheduled_date, status, notes) VALUES
-(1, 1, 3, CURDATE(), 'pending', 'Regular morning cleaning'),
-(2, 5, 3, CURDATE(), 'in_progress', 'Deep clean restrooms');
+(1, 1, 3, CURDATE(), 'pending', 'Regular morning cleaning of A101'),
+(2, 3, 3, CURDATE(), 'in_progress', 'Deep clean B101 office');
