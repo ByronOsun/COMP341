@@ -13,15 +13,19 @@ CREATE DATABASE IF NOT EXISTS smartcampus CHARACTER SET utf8mb4 COLLATE utf8mb4_
 USE smartcampus;
 
 -- ─────────────────────────────────────────────────────────────
--- Application database user (development / demo only)
--- WARNING: The empty password below is intentional for local
--- development only.  In production, set a strong password and
--- configure DB_USER / DB_PASSWORD environment variables for the
--- application instead of relying on these defaults.
+-- Application database user (example only, NOT executed)
+-- For security reasons, this schema file no longer creates a
+-- database user with a default or empty password.
+--
+-- Create a dedicated application user separately (for example):
+--   CREATE USER 'scm_app'@'localhost' IDENTIFIED BY 'your_strong_password_here';
+--   GRANT SELECT, INSERT, UPDATE, DELETE ON smartcampus.* TO 'scm_app'@'localhost';
+--   FLUSH PRIVILEGES;
+--
+-- In production, use a strong, unique password and configure
+-- DB_USER / DB_PASSWORD environment variables (or equivalent)
+-- for the application instead of relying on defaults.
 -- ─────────────────────────────────────────────────────────────
-CREATE USER IF NOT EXISTS 'scm_app'@'localhost' IDENTIFIED BY '';
-GRANT ALL PRIVILEGES ON smartcampus.* TO 'scm_app'@'localhost';
-FLUSH PRIVILEGES;
 
 -- ─────────────────────────────────────────────────────────────
 -- Users table: stores all system users
