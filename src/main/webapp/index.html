@@ -81,7 +81,7 @@
             bottom: 0;
             left: 0;
             width: 100%;
-            height: 110px;
+            height: 50px;
             background: var(--egerton-green);
             z-index: 2;
             box-shadow: 0 -4px 20px rgba(0, 0, 0, 0.2);
@@ -103,12 +103,13 @@
 
         .scrolling-content {
             display: inline-block;
-            animation: scroll-left 50s linear infinite; /* Slower: 50 seconds (was 25) */
+            animation: scroll-left 60s linear infinite;
             font-family: 'Inter', sans-serif;
-            font-size: 1.8rem; /* Double the size (was 0.9rem) */
+            font-size: 1.5rem;
             font-weight: 600;
             color: white;
             letter-spacing: 0.5px;
+            will-change: transform;
         }
 
         .scrolling-content span {
@@ -134,10 +135,10 @@
 
         @keyframes scroll-left {
             0% {
-                transform: translateX(100%);
+                transform: translateX(0);
             }
             100% {
-                transform: translateX(-100%);
+                transform: translateX(-50%);
             }
         }
 
@@ -151,7 +152,7 @@
             justify-content: center;
             position: relative;
             z-index: 3;
-            margin-bottom: 120px;
+            margin-bottom: 60px;
         }
 
         .header-section {
@@ -392,7 +393,7 @@
         /* Slideshow Indicator Dots */
         .slideshow-dots {
             position: fixed;
-            bottom: 120px;
+            bottom: 60px;
             left: 50%;
             transform: translateX(-50%);
             display: flex;
@@ -418,7 +419,7 @@
         @media (max-width: 768px) {
             .main-container {
                 max-width: 100%;
-                margin-bottom: 130px;
+                margin-bottom: 60px;
             }
             .login-card {
                 padding: 14px 18px 16px;
@@ -435,21 +436,24 @@
                 padding: 5px 10px;
             }
             .slideshow-dots {
-                bottom: 130px;
+                bottom: 60px;
             }
             .corporate-green-bar {
-                height: 120px;
+                height: 45px;
             }
             .scrolling-content {
-                font-size: 1rem;
+                font-size: 0.9rem;
                 animation: scroll-left 40s linear infinite;
             }
             .scrolling-content strong {
-                font-size: 1.1rem;
+                font-size: 1rem;
             }
             .separator {
                 height: 20px;
                 margin: 0 15px;
+            }
+            .scrolling-content span {
+                margin: 0 25px;
             }
         }
 
@@ -477,7 +481,7 @@
 
         .custom-toast {
             position: fixed;
-            bottom: 130px;
+            bottom: 70px;
             right: 20px;
             padding: 8px 16px;
             border-radius: 12px;
@@ -504,6 +508,15 @@
     <div class="corporate-green-bar">
         <div class="scrolling-text">
             <div class="scrolling-content">
+                <span><strong>MISSION:</strong> To revolutionize campus facility management through innovative, sustainable, and student-centric solutions that enhance learning environments.</span>
+                <span class="separator"></span>
+                <span><strong>VISION:</strong> To be Africa's leading smart campus, setting the standard for excellence in facility management and operational efficiency.</span>
+                <span class="separator"></span>
+                <span><strong>MOTTO:</strong> "Excellence Through Innovation — Transforming Spaces, Empowering Minds."</span>
+                <span class="separator"></span>
+                <span><strong>CORE VALUE:</strong> Integrity, Sustainability, Innovation, Excellence, and Community First.</span>
+                <!-- Duplicate content for seamless infinite scroll -->
+                <span class="separator"></span>
                 <span><strong>MISSION:</strong> To revolutionize campus facility management through innovative, sustainable, and student-centric solutions that enhance learning environments.</span>
                 <span class="separator"></span>
                 <span><strong>VISION:</strong> To be Africa's leading smart campus, setting the standard for excellence in facility management and operational efficiency.</span>
