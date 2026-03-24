@@ -142,6 +142,18 @@ public class CleaningTaskDAO {
         }
     }
 
+    /** Returns the count of cleaning tasks with the given status. */
+    public int countByStatus(CleaningTask.Status status) throws SQLException {
+        String sql = "SELECT COUNT(*) FROM cleaning_tasks WHERE status=?";
+        try (Connection conn = DBConnection.getConnection();
+             PreparedStatement ps = conn.prepareStatement(sql)) {
+            ps.setString(1, status.name());
+            try (ResultSet rs = ps.executeQuery()) {
+                return rs.next() ? rs.getInt(1) : 0;
+            }
+        }
+    }
+
     /** Returns the count of cleaning tasks completed today (all janitors). */
     public int countCompletedToday() throws SQLException {
         String sql = "SELECT COUNT(*) FROM cleaning_tasks WHERE status=? AND scheduled_date=CURDATE()";
