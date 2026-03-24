@@ -170,9 +170,9 @@
       <div class="row mb-4">
         <div class="col-md-3 col-sm-6">
           <div class="stat-card">
-            <div class="stat-icon"><i class="bi bi-building"></i></div>
+            <div class="stat-icon"><i class="bi bi-door-closed"></i></div>
             <h3><%= totalFacils %></h3>
-            <p>Total Facilities</p>
+            <p>Total Offices</p>
           </div>
         </div>
         <div class="col-md-3 col-sm-6">
@@ -193,7 +193,7 @@
           <div class="stat-card">
             <div class="stat-icon"><i class="bi bi-hourglass-split"></i></div>
             <h3><%= pendingReqs %></h3>
-            <p>Pending Requests</p>
+            <p>Pending Tasks</p>
           </div>
         </div>
       </div>
@@ -201,45 +201,41 @@
       <!-- Section Tabs -->
       <div class="section-tabs">
         <a class="section-tab active" id="tab-facilities" onclick="showSection('facilities')">
-          <i class="bi bi-building"></i> Facilities
+          <i class="bi bi-building"></i> Offices
         </a>
         <a class="section-tab" id="tab-users" onclick="showSection('users')">
           <i class="bi bi-people"></i> Users
-        </a>
-        <a class="section-tab" href="<%= ctx %>/maintenance-requests">
-          <i class="bi bi-tools"></i> Maintenance
         </a>
         <a class="section-tab" href="<%= ctx %>/cleaning-tasks">
           <i class="bi bi-bucket-fill"></i> Cleaning Tasks
         </a>
       </div>
 
-      <!-- Facilities Section -->
+      <!-- Offices Section -->
       <div id="facilitiesSection">
         <div class="table-container">
           <div class="d-flex justify-content-between align-items-center mb-3 flex-wrap gap-2">
-            <h5><i class="bi bi-building text-success"></i> Facilities</h5>
+            <h5><i class="bi bi-building text-success"></i> Offices</h5>
             <button class="btn-add" data-bs-toggle="modal" data-bs-target="#addFacilityModal">
-              <i class="bi bi-plus-lg"></i> Add Facility
+              <i class="bi bi-plus-lg"></i> Add Office
             </button>
           </div>
           <div class="table-responsive">
             <table class="table table-custom table-hover">
               <thead>
                 <tr>
-                  <th>#</th><th>Name</th><th>Location</th><th>Type</th><th>Capacity</th><th>Status</th><th>Actions</th>
+                  <th>#</th><th>Office</th><th>Wing</th><th>Capacity</th><th>Status</th><th>Actions</th>
                 </tr>
               </thead>
               <tbody>
                 <% if (allFacilities.isEmpty()) { %>
-                <tr><td colspan="7" class="text-center text-muted py-4">No facilities found.</td></tr>
+                <tr><td colspan="6" class="text-center text-muted py-4">No offices found.</td></tr>
                 <% } else {
                    for (Facility f : allFacilities) { %>
                 <tr>
                   <td><strong><%= f.getId() %></strong></td>
                   <td><strong><%= f.getName() %></strong></td>
                   <td><span class="badge bg-secondary bg-opacity-10 text-dark"><%= f.getLocation() %></span></td>
-                  <td class="text-capitalize"><%= f.getFacilityType().name() %></td>
                   <td><%= f.getCapacity() > 0 ? f.getCapacity() : "—" %></td>
                   <td><span class="badge rounded-pill badge-status-<%= f.getStatus().name() %> text-capitalize px-3"><%= f.getStatus().name() %></span></td>
                   <td>
@@ -247,7 +243,6 @@
                             data-fac-id="<%= f.getId() %>"
                             data-fac-name="<%= f.getName().replace("&","&amp;").replace("\"","&quot;") %>"
                             data-fac-loc="<%= f.getLocation().replace("&","&amp;").replace("\"","&quot;") %>"
-                            data-fac-type="<%= f.getFacilityType().name() %>"
                             data-fac-cap="<%= f.getCapacity() %>"
                             data-fac-status="<%= f.getStatus().name() %>"
                             data-fac-desc="<%= f.getDescription() != null ? f.getDescription().replace("&","&amp;").replace("\"","&quot;") : "" %>"
@@ -255,7 +250,7 @@
                       <i class="bi bi-pencil-square"></i>
                     </button>
                     <form method="post" action="<%= ctx %>/facilities" class="d-inline"
-                          onsubmit="return confirm('Delete this facility? This cannot be undone.')">
+                          onsubmit="return confirm('Delete this office? This cannot be undone.')">
                       <input type="hidden" name="action" value="delete">
                       <input type="hidden" name="id" value="<%= f.getId() %>">
                       <button class="btn btn-sm btn-outline-danger" style="border-radius:20px;">
@@ -318,50 +313,45 @@
   </div>
 </div>
 
-<!-- Add Facility Modal -->
+<!-- Add Office Modal -->
 <div class="modal fade modal-custom" id="addFacilityModal" tabindex="-1">
   <div class="modal-dialog modal-dialog-centered">
     <div class="modal-content">
       <form method="post" action="<%= ctx %>/facilities">
         <input type="hidden" name="action" value="create">
+        <input type="hidden" name="facilityType" value="office">
         <div class="modal-header">
-          <h5 class="modal-title"><i class="bi bi-plus-circle"></i> Add New Facility</h5>
+          <h5 class="modal-title"><i class="bi bi-plus-circle"></i> Add New Office</h5>
           <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
         </div>
         <div class="modal-body">
           <div class="mb-3">
-            <label class="form-label fw-semibold">Facility Name *</label>
-            <input type="text" name="name" class="form-control" required maxlength="150" placeholder="e.g., Science Lab A101">
+            <label class="form-label fw-semibold">Office Number *</label>
+            <input type="text" name="name" class="form-control" required maxlength="150" placeholder="e.g., A101, B202">
           </div>
           <div class="mb-3">
-            <label class="form-label fw-semibold">Location *</label>
-            <input type="text" name="location" class="form-control" required maxlength="200" placeholder="e.g., Block A, Floor 1">
+            <label class="form-label fw-semibold">Wing *</label>
+            <select name="location" class="form-select" required>
+              <option value="Wing A">Wing A</option>
+              <option value="Wing B">Wing B</option>
+              <option value="Wing C">Wing C</option>
+              <option value="Wing D">Wing D</option>
+            </select>
           </div>
           <div class="row">
-            <div class="col mb-3">
-              <label class="form-label fw-semibold">Type *</label>
-              <select name="facilityType" class="form-select" required>
-                <option value="classroom">Classroom</option>
-                <option value="lab">Lab</option>
-                <option value="office">Office</option>
-                <option value="hall">Hall</option>
-                <option value="restroom">Restroom</option>
-                <option value="other">Other</option>
-              </select>
-            </div>
             <div class="col mb-3">
               <label class="form-label fw-semibold">Capacity</label>
               <input type="number" name="capacity" class="form-control" min="0" value="0">
             </div>
-          </div>
-          <div class="mb-3">
-            <label class="form-label fw-semibold">Status *</label>
-            <select name="status" class="form-select" required>
-              <option value="available">Available</option>
-              <option value="occupied">Occupied</option>
-              <option value="maintenance">Maintenance</option>
-              <option value="closed">Closed</option>
-            </select>
+            <div class="col mb-3">
+              <label class="form-label fw-semibold">Status *</label>
+              <select name="status" class="form-select" required>
+                <option value="available">Available</option>
+                <option value="occupied">Occupied</option>
+                <option value="maintenance">Maintenance</option>
+                <option value="closed">Closed</option>
+              </select>
+            </div>
           </div>
           <div class="mb-3">
             <label class="form-label fw-semibold">Description</label>
@@ -370,58 +360,53 @@
         </div>
         <div class="modal-footer">
           <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
-          <button type="submit" class="btn btn-primary">Add Facility</button>
+          <button type="submit" class="btn btn-primary">Add Office</button>
         </div>
       </form>
     </div>
   </div>
 </div>
 
-<!-- Edit Facility Modal -->
+<!-- Edit Office Modal -->
 <div class="modal fade modal-custom" id="editFacilityModal" tabindex="-1">
   <div class="modal-dialog modal-dialog-centered">
     <div class="modal-content">
       <form method="post" action="<%= ctx %>/facilities">
         <input type="hidden" name="action" value="update">
         <input type="hidden" name="id" id="editFacId">
+        <input type="hidden" name="facilityType" value="office">
         <div class="modal-header">
-          <h5 class="modal-title"><i class="bi bi-pencil-square"></i> Edit Facility</h5>
+          <h5 class="modal-title"><i class="bi bi-pencil-square"></i> Edit Office</h5>
           <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
         </div>
         <div class="modal-body">
           <div class="mb-3">
-            <label class="form-label fw-semibold">Facility Name *</label>
+            <label class="form-label fw-semibold">Office Number *</label>
             <input type="text" name="name" id="editFacName" class="form-control" required maxlength="150">
           </div>
           <div class="mb-3">
-            <label class="form-label fw-semibold">Location *</label>
-            <input type="text" name="location" id="editFacLoc" class="form-control" required maxlength="200">
+            <label class="form-label fw-semibold">Wing *</label>
+            <select name="location" id="editFacLoc" class="form-select" required>
+              <option value="Wing A">Wing A</option>
+              <option value="Wing B">Wing B</option>
+              <option value="Wing C">Wing C</option>
+              <option value="Wing D">Wing D</option>
+            </select>
           </div>
           <div class="row">
-            <div class="col mb-3">
-              <label class="form-label fw-semibold">Type *</label>
-              <select name="facilityType" id="editFacType" class="form-select" required>
-                <option value="classroom">Classroom</option>
-                <option value="lab">Lab</option>
-                <option value="office">Office</option>
-                <option value="hall">Hall</option>
-                <option value="restroom">Restroom</option>
-                <option value="other">Other</option>
-              </select>
-            </div>
             <div class="col mb-3">
               <label class="form-label fw-semibold">Capacity</label>
               <input type="number" name="capacity" id="editFacCap" class="form-control" min="0">
             </div>
-          </div>
-          <div class="mb-3">
-            <label class="form-label fw-semibold">Status *</label>
-            <select name="status" id="editFacStatus" class="form-select" required>
-              <option value="available">Available</option>
-              <option value="occupied">Occupied</option>
-              <option value="maintenance">Maintenance</option>
-              <option value="closed">Closed</option>
-            </select>
+            <div class="col mb-3">
+              <label class="form-label fw-semibold">Status *</label>
+              <select name="status" id="editFacStatus" class="form-select" required>
+                <option value="available">Available</option>
+                <option value="occupied">Occupied</option>
+                <option value="maintenance">Maintenance</option>
+                <option value="closed">Closed</option>
+              </select>
+            </div>
           </div>
           <div class="mb-3">
             <label class="form-label fw-semibold">Description</label>
@@ -430,7 +415,7 @@
         </div>
         <div class="modal-footer">
           <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
-          <button type="submit" class="btn btn-primary">Update Facility</button>
+          <button type="submit" class="btn btn-primary">Update Office</button>
         </div>
       </form>
     </div>
@@ -448,12 +433,11 @@
         });
     }
 
-    // Edit facility modal - reads from safe HTML data attributes
+    // Edit office modal - reads from safe HTML data attributes
     function openEditFacility(btn) {
         document.getElementById('editFacId').value      = btn.dataset.facId;
         document.getElementById('editFacName').value    = btn.dataset.facName;
         document.getElementById('editFacLoc').value     = btn.dataset.facLoc;
-        document.getElementById('editFacType').value    = btn.dataset.facType;
         document.getElementById('editFacCap').value     = btn.dataset.facCap;
         document.getElementById('editFacStatus').value  = btn.dataset.facStatus;
         document.getElementById('editFacDesc').value    = btn.dataset.facDesc;
