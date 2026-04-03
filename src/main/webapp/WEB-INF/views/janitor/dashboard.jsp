@@ -9,7 +9,6 @@
     List<CleaningTask> myTasks = (List<CleaningTask>) request.getAttribute("myTasks");
     if (myTasks == null) myTasks = Collections.emptyList();
 
-    int todayCount     = request.getAttribute("todayCount") != null ? (int) request.getAttribute("todayCount") : 0;
     int completedCount = 0;
     int pendingCount   = 0;
     for (CleaningTask t : myTasks) {
@@ -77,35 +76,33 @@
         .stat-card h3 { font-size: 1.8rem; font-weight: 700; margin-bottom: 0; color: var(--text-dark); }
         .stat-card p { color: var(--text-muted); font-size: 0.75rem; margin-bottom: 0; }
 
-        /* Office / Task cards */
-        .task-card { background: var(--card-white); border-radius: 20px; padding: 1.2rem;
-                     box-shadow: 0 2px 8px rgba(0,0,0,0.04); border: 1px solid var(--border-color);
-                     margin-bottom: 1rem; transition: all 0.2s; }
-        .task-card:hover { box-shadow: 0 8px 20px rgba(0,0,0,0.08); }
-        .task-card-header { border-bottom: 2px solid var(--border-color); padding-bottom: 0.8rem; margin-bottom: 1rem; }
-        .task-card-header h4 { font-weight: 700; color: var(--text-dark); margin-bottom: 0.25rem; }
-        .task-location { font-size: 0.75rem; color: var(--text-muted); }
+        .office-card { background: var(--card-white); border-radius: 20px; padding: 1.2rem;
+                       box-shadow: 0 2px 8px rgba(0,0,0,0.04); border: 1px solid var(--border-color);
+                       margin-bottom: 1rem; transition: all 0.2s; }
+        .office-card:hover { box-shadow: 0 8px 20px rgba(0,0,0,0.08); }
 
-        .badge-pending    { background: var(--pending-bg); color: var(--pending-color); padding: 4px 10px; border-radius: 20px; font-size: 0.7rem; font-weight: 600; display: inline-block; }
+        .office-header { border-bottom: 2px solid var(--border-color); padding-bottom: 0.8rem; margin-bottom: 1rem; }
+        .office-header h4 { font-weight: 700; color: var(--text-dark); margin-bottom: 0.25rem; }
+        .office-location { font-size: 0.75rem; color: var(--text-muted); }
+
+        .badge-pending    { background: var(--pending-bg);   color: var(--pending-color);   padding: 4px 10px; border-radius: 20px; font-size: 0.7rem; font-weight: 600; display: inline-block; }
         .badge-completed  { background: var(--completed-bg); color: var(--completed-color); padding: 4px 10px; border-radius: 20px; font-size: 0.7rem; font-weight: 600; display: inline-block; }
         .badge-in_progress { background: #dbeafe; color: #1e40af; padding: 4px 10px; border-radius: 20px; font-size: 0.7rem; font-weight: 600; display: inline-block; }
         .badge-skipped    { background: #f3f4f6; color: #374151; padding: 4px 10px; border-radius: 20px; font-size: 0.7rem; font-weight: 600; display: inline-block; }
 
-        .task-detail-row { display: flex; align-items: center; gap: 8px; padding: 8px 0;
+        .office-task-row { display: flex; align-items: center; gap: 8px; padding: 8px 0;
                            border-bottom: 1px solid var(--border-color); font-size: 0.875rem; }
-        .task-detail-row:last-child { border-bottom: none; }
-        .task-detail-row i { color: var(--egerton-green); width: 18px; }
+        .office-task-row:last-child { border-bottom: none; }
+        .office-task-row i { color: var(--egerton-green); width: 18px; }
 
-        .task-actions { margin-top: 1rem; padding-top: 0.8rem; border-top: 1px solid var(--border-color); }
+        .office-actions { margin-top: 1rem; padding-top: 0.8rem; border-top: 1px solid var(--border-color); }
 
-        /* Filter buttons */
-        .filter-buttons { display: flex; gap: 10px; margin-bottom: 20px; flex-wrap: wrap; }
+        .filter-buttons { display: flex; gap: 10px; margin-bottom: 20px; }
         .filter-btn { padding: 6px 16px; border-radius: 20px; border: 1px solid var(--border-color);
                       background: white; font-size: 0.8rem; cursor: pointer; transition: all 0.2s; }
         .filter-btn.active { background: var(--egerton-green); color: white; border-color: var(--egerton-green); }
         .filter-btn:hover:not(.active) { border-color: var(--egerton-green); color: var(--egerton-green); }
 
-        /* History section */
         .history-card { background: var(--card-white); border-radius: 20px; padding: 1.5rem;
                         box-shadow: 0 2px 8px rgba(0,0,0,0.04); border: 1px solid var(--border-color); }
         .history-item { display: flex; align-items: center; gap: 12px; padding: 12px 0;
@@ -145,28 +142,26 @@
         <div class="filter-buttons">
           <button class="filter-btn active" data-filter="all">All Offices</button>
           <button class="filter-btn" data-filter="pending">Pending Only</button>
-          <button class="filter-btn" data-filter="in_progress">In Progress</button>
           <button class="filter-btn" data-filter="completed">Completed Only</button>
-          <button class="filter-btn" data-filter="skipped">Skipped</button>
         </div>
 
         <!-- Stats Cards -->
         <div class="row mb-4">
-          <div class="col-md-4 col-sm-6 mb-3">
+          <div class="col-md-4 mb-3">
             <div class="stat-card">
               <div class="stat-icon"><i class="bi bi-briefcase"></i></div>
               <h3><%= myTasks.size() %></h3>
               <p>Total Assigned</p>
             </div>
           </div>
-          <div class="col-md-4 col-sm-6 mb-3">
+          <div class="col-md-4 mb-3">
             <div class="stat-card">
               <div class="stat-icon"><i class="bi bi-check2-circle"></i></div>
               <h3><%= completedCount %></h3>
               <p>Completed</p>
             </div>
           </div>
-          <div class="col-md-4 col-sm-6 mb-3">
+          <div class="col-md-4 mb-3">
             <div class="stat-card">
               <div class="stat-icon"><i class="bi bi-hourglass-split"></i></div>
               <h3><%= pendingCount %></h3>
@@ -178,11 +173,10 @@
         <!-- Assigned Offices / Tasks -->
         <div class="d-flex justify-content-between align-items-center mb-3">
           <h5 class="fw-semibold mb-0"><i class="bi bi-building text-success"></i> My Assigned Offices</h5>
-          <a href="<%= ctx %>/cleaning-tasks" class="btn btn-sm btn-outline-success">View All</a>
         </div>
 
         <% if (myTasks.isEmpty()) { %>
-        <div class="task-card text-center py-5">
+        <div class="office-card text-center py-5">
           <i class="bi bi-check-circle text-success" style="font-size:2.5rem;"></i>
           <p class="mt-3 text-muted">No cleaning tasks assigned.</p>
         </div>
@@ -194,31 +188,31 @@
                String facilityLabel = (t.getFacilityName() != null && !t.getFacilityName().isEmpty())
                                       ? t.getFacilityName() : "Office #" + t.getFacilityId();
           %>
-          <div class="task-card" data-status="<%= t.getStatus().name() %>">
-            <div class="task-card-header">
+          <div class="office-card" data-status="<%= t.getStatus().name() %>">
+            <div class="office-header">
               <div class="d-flex justify-content-between align-items-start">
                 <div>
                   <h4><%= facilityLabel %></h4>
-                  <p class="task-location"><i class="bi bi-geo-alt"></i> Facility ID: <%= t.getFacilityId() %></p>
+                  <p class="office-location"><i class="bi bi-geo-alt"></i> Facility ID: <%= t.getFacilityId() %></p>
                 </div>
                 <span class="<%= statusClass %> text-capitalize"><%= statusLabel %></span>
               </div>
             </div>
 
-            <div class="task-details">
-              <div class="task-detail-row">
+            <div class="office-tasks">
+              <div class="office-task-row">
                 <i class="bi bi-calendar-event"></i>
                 <span><strong>Scheduled:</strong> <%= t.getScheduledDate() %></span>
               </div>
               <% if (t.getNotes() != null && !t.getNotes().isEmpty()) { %>
-              <div class="task-detail-row">
+              <div class="office-task-row">
                 <i class="bi bi-sticky"></i>
                 <span><strong>Notes:</strong> <%= t.getNotes() %></span>
               </div>
               <% } %>
             </div>
 
-            <div class="task-actions">
+            <div class="office-actions">
               <form method="post" action="<%= ctx %>/cleaning-tasks" class="d-flex gap-2 align-items-center">
                 <input type="hidden" name="action" value="updateStatus">
                 <input type="hidden" name="id" value="<%= t.getId() %>">
@@ -241,31 +235,33 @@
 
       <!-- Completed History Section -->
       <div id="historySection" style="display:none;">
-        <div class="history-card">
-          <h5 class="fw-semibold mb-1"><i class="bi bi-clock-history text-success"></i> Completed Tasks History</h5>
-          <p class="text-muted small mb-3">Records of tasks you've completed</p>
-          <% boolean hasCompleted = false;
-             for (CleaningTask t : myTasks) {
-               if (t.getStatus() == CleaningTask.Status.completed) { hasCompleted = true; break; }
-             }
-             if (!hasCompleted) { %>
-          <div class="text-center py-5">
-            <i class="bi bi-inbox text-muted" style="font-size:2.5rem;"></i>
-            <p class="mt-2 text-muted">No completed tasks yet</p>
-          </div>
-          <% } else {
+        <div class="card border-0 shadow-sm rounded-4">
+          <div class="card-body p-4">
+            <h5 class="fw-semibold mb-1"><i class="bi bi-clock-history text-success"></i> Completed Tasks History</h5>
+            <p class="text-muted small mb-3">Records of tasks you've completed</p>
+            <% boolean hasCompleted = false;
                for (CleaningTask t : myTasks) {
-                 if (t.getStatus() != CleaningTask.Status.completed) continue;
-                 String facilityLabel = (t.getFacilityName() != null && !t.getFacilityName().isEmpty())
-                                        ? t.getFacilityName() : "Office #" + t.getFacilityId(); %>
-          <div class="history-item">
-            <div style="flex:1;">
-              <p class="mb-1"><strong><%= facilityLabel %></strong></p>
-              <p class="mb-0 small text-muted">Scheduled: <%= t.getScheduledDate() %></p>
+                 if (t.getStatus() == CleaningTask.Status.completed) { hasCompleted = true; break; }
+               }
+               if (!hasCompleted) { %>
+            <div class="text-center py-5">
+              <i class="bi bi-inbox text-muted" style="font-size:2.5rem;"></i>
+              <p class="mt-2 text-muted">No completed tasks yet</p>
             </div>
-            <span class="badge-completed"><i class="bi bi-check-circle"></i> Done</span>
+            <% } else {
+                 for (CleaningTask t : myTasks) {
+                   if (t.getStatus() != CleaningTask.Status.completed) continue;
+                   String facilityLabel = (t.getFacilityName() != null && !t.getFacilityName().isEmpty())
+                                          ? t.getFacilityName() : "Office #" + t.getFacilityId(); %>
+            <div class="history-item">
+              <div style="flex:1;">
+                <p class="mb-1"><strong><%= facilityLabel %></strong></p>
+                <p class="mb-0 small text-muted">Scheduled: <%= t.getScheduledDate() %></p>
+              </div>
+              <span class="badge-completed"><i class="bi bi-check-circle"></i> Done</span>
+            </div>
+            <% } } %>
           </div>
-          <% } } %>
         </div>
       </div>
 
@@ -281,7 +277,7 @@
             document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
             btn.classList.add('active');
             const filter = btn.getAttribute('data-filter');
-            document.querySelectorAll('#tasksList .task-card').forEach(card => {
+            document.querySelectorAll('#tasksList .office-card').forEach(card => {
                 const status = card.getAttribute('data-status');
                 card.style.display = (filter === 'all' || status === filter) ? 'block' : 'none';
             });
