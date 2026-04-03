@@ -21,14 +21,15 @@
     <a href="<%= ctx %>/cleaning-tasks"     class="nav-link-custom <%= "cleaning".equals(activePage) ? "active" : "" %>"><i class="bi bi-bucket-fill"></i> Cleaning Tasks</a>
     <% } else if ("lecturer".equals(userRole)) { %>
     <a href="<%= ctx %>/lecturer/dashboard"  class="nav-link-custom <%= "dashboard".equals(activePage) ? "active" : "" %>"><i class="bi bi-speedometer2"></i> Dashboard</a>
-    <a href="<%= ctx %>/facilities"           class="nav-link-custom <%= "facilities".equals(activePage) ? "active" : "" %>"><i class="bi bi-building-fill"></i> Facilities</a>
+    <a href="#" data-section="reports"       class="nav-link-custom"><i class="bi bi-flag"></i> My Reports</a>
     <% } else if ("janitor".equals(userRole)) { %>
     <a href="<%= ctx %>/janitor/dashboard"   class="nav-link-custom <%= "dashboard".equals(activePage) ? "active" : "" %>"><i class="bi bi-speedometer2"></i> Dashboard</a>
     <a href="#" data-section="history"       class="nav-link-custom"><i class="bi bi-clock-history"></i> Completed History</a>
-    <a href="<%= ctx %>/cleaning-tasks"      class="nav-link-custom <%= "cleaning".equals(activePage) ? "active" : "" %>"><i class="bi bi-bucket-fill"></i> My Tasks</a>
     <% } else if ("supervisor".equals(userRole)) { %>
     <a href="<%= ctx %>/supervisor/dashboard" class="nav-link-custom <%= "dashboard".equals(activePage) ? "active" : "" %>"><i class="bi bi-speedometer2"></i> Dashboard</a>
-    <a href="<%= ctx %>/cleaning-tasks"        class="nav-link-custom <%= "cleaning".equals(activePage) ? "active" : "" %>"><i class="bi bi-bucket-fill"></i> Cleaning Tasks</a>
+    <a href="#" data-section="monitor"        class="nav-link-custom"><i class="bi bi-tv"></i> Live Monitor</a>
+    <a href="#" data-section="staff"          class="nav-link-custom"><i class="bi bi-people"></i> Janitor Staff</a>
+    <a href="#" data-section="reports"        class="nav-link-custom"><i class="bi bi-flag"></i> Dispute Reports</a>
     <% } %>
 
     <div class="mt-auto px-3 pt-3" style="position:absolute;bottom:20px;left:0;right:0;">
